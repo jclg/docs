@@ -1,6 +1,7 @@
 # Masterpush Documentation Project
 
-[![License badge](https://camo.githubusercontent.com/4a586bb04a6e62fd66a9cfb56339a74809ec4d32/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d4953432d626c75652e737667)](https://www.isc.org/downloads/software-support-policy/isc-license/)
+[![License badge](https://camo.githubusercontent.com/4a586bb04a6e62fd66a9cfb56339a74809ec4d32/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d4953432d626c75652e737667)](https://www.isc.org/downloads/software-support-policy/isc-license/)[![Readthedocs Latest build](https://readthedocs.org/projects/pip/badge/?version=latest)](http:/masterpush.readthedocs.org/en/latest/)
+
 
 ## Overview
 
