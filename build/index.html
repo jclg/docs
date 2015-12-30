@@ -30,7 +30,8 @@
   
 
   
-    <link rel="top" title="documentation masterpush 0.0.1" href="#"/> 
+    <link rel="top" title="documentation masterpush 0.0.1" href="#"/>
+        <link rel="next" title="Prérequis" href="prerequis.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -79,21 +80,16 @@
           
             
             
-                <!-- Local TOC -->
-                <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Bienvenue dans la documentation de Masterpush</a><ul>
-<li><a class="reference internal" href="#installer-curl">Installer Curl</a><ul>
-<li><a class="reference internal" href="#sur-ubuntu">Sur ubuntu</a></li>
+                <p class="caption"><span class="caption-text">Presentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="prerequis.html">Prérequis</a></li>
 </ul>
-</li>
-<li><a class="reference internal" href="#s-authentifier">S&#8217;authentifier</a></li>
-<li><a class="reference internal" href="#recuperer-la-liste-des-messages">Recupérer la liste des messages</a></li>
-<li><a class="reference internal" href="#filtrer-les-resultats">Filtrer les résultats</a></li>
-<li><a class="reference internal" href="#envoyer-un-message">Envoyer un message</a></li>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Envoyer/Retrouver des messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statistics.html">Statistiques</a></li>
 </ul>
-</li>
-</ul>
-</div>
+
             
           
         </div>
@@ -145,139 +141,35 @@ un module d&#8217;envoi de sms sur son application.</p>
 <p>Documentation pour PHP :</p>
 <p>Afin d&#8217;utiliser l&#8217;API, vous devez pouvoir envoyer des requêtes HTTP à nos serveurs. Cela peut être fait via
 l&#8217;extension php <a class="reference external" href="http://php.net/manual/fr/book.curl.php">Curl</a>.</p>
-<div class="section" id="installer-curl">
-<h2>Installer Curl<a class="headerlink" href="#installer-curl" title="Lien permanent vers ce titre">¶</a></h2>
-<div class="section" id="sur-ubuntu">
-<h3>Sur ubuntu<a class="headerlink" href="#sur-ubuntu" title="Lien permanent vers ce titre">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$&gt;</span> apt-get install php5-curl
-<span class="nv">$&gt;</span> service apache2 restart
-</pre></div>
-</div>
-<p>Si vous utilisez php-fpm :</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$&gt;</span> service php5-fpm restart
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="s-authentifier">
-<h2>S&#8217;authentifier<a class="headerlink" href="#s-authentifier" title="Lien permanent vers ce titre">¶</a></h2>
-<p>Afin de vous identifier sur l&#8217;API, il vous sera demandé d&#8217;ajouter un token (clé) d&#8217;authentification à chaque requête.
-Celui-çi vous sera communiqué par un de nos account Managers ou commercial, il peut être révoqué à tout moment.
-Pour cela, il suffit de demander la génération d&#8217;un nouveau token.</p>
-<p>La clé doit être ajoutée dans les headers des requêtes. Voici comment procéder avec Curl:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">$token = &#39;mytoken&#39;;</span>
-<span class="x">$ch = curl_init();</span>
-<span class="x">setopt($ch, CURLOPT_HTTPHEADER, array(&#39;x-masterpush-apikey: &#39; . $token));</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="recuperer-la-liste-des-messages">
-<h2>Recupérer la liste des messages<a class="headerlink" href="#recuperer-la-liste-des-messages" title="Lien permanent vers ce titre">¶</a></h2>
-<p>Pour avoir la liste des messages, il vous suffit d&#8217;envoyer une requête GET vers la route /messages</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">$token = &#39;mytoken&#39;;</span>
-<span class="x">$ch = curl_init();</span>
-
-<span class="x">// add the token</span>
-<span class="x">curl_setopt($ch, CURLOPT_HTTPHEADER, array(&#39;x-masterpush-apikey: &#39; . $token));</span>
-
-<span class="x">// set the route URL</span>
-<span class="x">curl_setopt($ch, CURLOPT_URL, &#39;https://api.masterpush.com/v1/messages&#39;);</span>
-
-<span class="x">curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span>
-<span class="x">// Execute the query</span>
-<span class="x">$server_output = curl_exec($ch);</span>
-
-<span class="x">// Close the connection</span>
-<span class="x">curl_close ($ch);</span>
-<span class="x">print  $server_output;</span>
-</pre></div>
-</div>
-<p>Le code ci-dessus devrait retourner un object JSON correspondant au template ci-dessous :</p>
-<div class="highlight-json"><div class="highlight"><pre><span class="p">[</span>
-  <span class="p">{</span>
-    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="nt">&quot;phone&quot;</span><span class="p">:</span> <span class="s2">&quot;+33xxxxxxxxx&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;La vie l&#39;univers et tout le reste&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-04-05 23:42:42&quot;</span>
-  <span class="p">}</span>
-<span class="p">]</span>
-</pre></div>
-</div>
-<p>Si aucun message n&#8217;a été envoyé via cette configuration, le tableau sera vide.</p>
-</div>
-<div class="section" id="filtrer-les-resultats">
-<h2>Filtrer les résultats<a class="headerlink" href="#filtrer-les-resultats" title="Lien permanent vers ce titre">¶</a></h2>
-<p>Il est possible de filtrer les résultats d&#8217;une requête. Pour cela, il faut ajouter les filtres dans
-l&#8217;url.</p>
-<p>Il y a six filtres disponibles sur cette ressource :</p>
-<ul class="simple">
-<li>phoneNumber : Limite la recherche au numéro</li>
-<li>status : Limite la recherche statut des messages, il peut être<ul>
-<li>&#8220;ok&#8221;</li>
-<li>&#8220;ko&#8221;</li>
-<li>&#8220;error&#8221;</li>
-<li>&#8220;waiting&#8221;</li>
-<li>&#8220;queued&#8221;</li>
-<li>&#8220;toQueued&#8221;</li>
-<li>&#8220;processing&#8221;</li>
+<div class="toctree-wrapper compound" id="presentation">
+<span id="avant-propos"></span><p class="caption"><span class="caption-text">Presentation</span><a class="headerlink" href="#presentation" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="prerequis.html">Prérequis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="prerequis.html#installer-curl">Installer Curl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prerequis.html#s-authentifier">S&#8217;authentifier</a></li>
 </ul>
 </li>
-<li>from : Limite la recherche aux messages envoyés après cette date, le format de date est &#8220;Y-m-d H:i:s&#8221;</li>
-<li>to : Limite la recherche aux messages envoyés jusqu&#8217;à cette date, le format de date est &#8220;Y-m-d H:i:s&#8221;</li>
-<li>limit: Limite le nombre de resultats (100 max)</li>
-<li>offset : Saute les x premiers resultats.</li>
 </ul>
-<p>Voici un exemple pour avoir les messages envoyés au +33xxxxxxxxx qui sont ko:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">$token = &#39;mytoken&#39;;</span>
-<span class="x">$ch = curl_init();</span>
-
-<span class="x">// add the token</span>
-<span class="x">curl_setopt($ch, CURLOPT_HTTPHEADER, array(&#39;x-masterpush-apikey: &#39; . $token));</span>
-
-<span class="x">// set the route URL</span>
-<span class="x">curl_setopt($ch, CURLOPT_URL, &#39;https://api.masterpush.com/v1/messages?phoneNumber=&#39; . urlencode(&#39;+33xxxxxxxxx&#39;) . &#39;&amp;status=ko&#39;);</span>
-
-<span class="x">curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span>
-<span class="x">// Execute the query</span>
-<span class="x">$server_output = curl_exec($ch);</span>
-
-<span class="x">// Close the connection</span>
-<span class="x">curl_close ($ch);</span>
-<span class="x">print  $server_output ;</span>
-</pre></div>
 </div>
-</div>
-<div class="section" id="envoyer-un-message">
-<h2>Envoyer un message<a class="headerlink" href="#envoyer-un-message" title="Lien permanent vers ce titre">¶</a></h2>
-<p>Pour envoyer un message via notre API, il suffit d&#8217;envoyer une requête POST vers la route /messages
-Cette route demande un object JSON dans le body contenant au moins les champs:</p>
-<ul class="simple">
-<li>phoneNumber</li>
-<li>content</li>
+<div class="toctree-wrapper compound" id="developer-documentation">
+<span id="developer-docs"></span><p class="caption"><span class="caption-text">Developer Documentation</span><a class="headerlink" href="#developer-documentation" title="Permalink to this toctree">¶</a></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Envoyer/Retrouver des messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="messages.html#recuperer-la-liste-des-messages">Recupérer la liste des messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messages.html#retrouver-un-message">Retrouver un message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messages.html#envoyer-un-message">Envoyer un message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messages.html#envoi-multiple">Envoi multiple</a></li>
 </ul>
-<p>Le champ oadc est optionnel et changera le sender affiché sur le téléphone du destinataire.
-Le code ci-dessous va envoyé un sms au numéro +336xxxxxxxx avec le l&#8217;OADC masterpush.</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">$token = &#39;mytoken&#39;;</span>
-<span class="x">$ch = curl_init();</span>
-
-<span class="x">// add the token</span>
-<span class="x">curl_setopt($ch, CURLOPT_HTTPHEADER, array(&#39;x-masterpush-apikey: &#39; . $token));</span>
-
-<span class="x">// set the route URL</span>
-<span class="x">curl_setopt($ch, CURLOPT_URL, &#39;https://api.masterpush.com/v1/messages&#39;);</span>
-<span class="x">curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span>
-<span class="x">curl_setopt($ch, CURLOPT_POST, true);</span>
-<span class="x">curl_setopt($ch, CURLOPT_POSTFIELDS,     &#39;{&quot;phoneNumber&quot;: &quot;+336xxxxxxx&quot;, &quot;content&quot;: &quot;La vie l\&#39;univers et tout le reste&quot;, &quot;oadc&quot;: &quot;masterpush&quot;}&#39; );</span>
-
-<span class="x">// Execute the query</span>
-<span class="x">$server_output = curl_exec($ch);</span>
-
-<span class="x">// Close the connection</span>
-<span class="x">curl_close ($ch);</span>
-<span class="x">print  $server_output;</span>
-</pre></div>
-</div>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="statistics.html">Statistiques</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="statistics.html#general">Général</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistics.html#par-heure">Par heure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistics.html#par-jour">Par jour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistics.html#par-mois">Par mois</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistics.html#filtrer-les-statistiques">Filtrer les statistiques</a></li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 
@@ -285,6 +177,13 @@ Le code ci-dessous va envoyé un sms au numéro +336xxxxxxxx avec le l&#8217;OAD
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="prerequis.html" class="btn btn-neutral float-right" title="Prérequis" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
   
 
   <hr/>
