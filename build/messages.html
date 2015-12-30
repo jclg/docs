@@ -1,0 +1,414 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Envoyer/Retrouver des messages &mdash; documentation masterpush 0.0.1</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentation masterpush 0.0.1" href="index.html"/>
+        <link rel="next" title="Statistiques" href="statistics.html"/>
+        <link rel="prev" title="Prérequis" href="prerequis.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> masterpush
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Presentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="prerequis.html">Prérequis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Envoyer/Retrouver des messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#recuperer-la-liste-des-messages">Recupérer la liste des messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#filtrer-les-resultats">Filtrer les résultats</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#retrouver-un-message">Retrouver un message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#envoyer-un-message">Envoyer un message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#envoi-multiple">Envoi multiple</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="statistics.html">Statistiques</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">masterpush</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Envoyer/Retrouver des messages</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/messages.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="envoyer-retrouver-des-messages">
+<h1>Envoyer/Retrouver des messages<a class="headerlink" href="#envoyer-retrouver-des-messages" title="Lien permanent vers ce titre">¶</a></h1>
+<div class="section" id="recuperer-la-liste-des-messages">
+<h2>Recupérer la liste des messages<a class="headerlink" href="#recuperer-la-liste-des-messages" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Pour avoir la liste des messages, il vous suffit d&#8217;envoyer une requête GET vers la route /messages</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="x">$token = &#39;mytoken&#39;;</span>
+<span class="x">$ch = curl_init();</span>
+
+<span class="x">// add the token</span>
+<span class="x">curl_setopt($ch, CURLOPT_HTTPHEADER, array(&#39;x-masterpush-apikey: &#39; . $token));</span>
+
+<span class="x">// set the route URL</span>
+<span class="x">curl_setopt($ch, CURLOPT_URL, &#39;https://api.masterpush.com/v1/messages&#39;);</span>
+
+<span class="x">curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span>
+<span class="x">// Execute the query</span>
+<span class="x">$server_output = curl_exec($ch);</span>
+
+<span class="x">// Close the connection</span>
+<span class="x">curl_close ($ch);</span>
+<span class="x">print  $server_output;</span>
+</pre></div>
+</div>
+<p>Le code ci-dessus devrait retourner un object JSON correspondant au template ci-dessous :</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nt">&quot;phone&quot;</span><span class="p">:</span> <span class="s2">&quot;+33xxxxxxxxx&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;La vie l&#39;univers et tout le reste&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-04-05 23:42:42&quot;</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Si aucun message n&#8217;a été envoyé via cette configuration, le tableau sera vide.</p>
+<div class="section" id="filtrer-les-resultats">
+<h3>Filtrer les résultats<a class="headerlink" href="#filtrer-les-resultats" title="Lien permanent vers ce titre">¶</a></h3>
+<p>Il est possible de filtrer les résultats d&#8217;une requête. Pour cela, il faut ajouter les filtres dans
+l&#8217;url.</p>
+<p>Il y a six filtres disponibles sur cette ressource :</p>
+<ul class="simple">
+<li>phoneNumber : Limite la recherche au numéro</li>
+<li>status : Limite la recherche statut des messages, il peut être<ul>
+<li>&#8220;ok&#8221;</li>
+<li>&#8220;ko&#8221;</li>
+<li>&#8220;error&#8221;</li>
+<li>&#8220;waiting&#8221;</li>
+<li>&#8220;queued&#8221;</li>
+<li>&#8220;toQueued&#8221;</li>
+<li>&#8220;processing&#8221;</li>
+</ul>
+</li>
+<li>from : Limite la recherche aux messages envoyés après cette date, le format de date est &#8220;Y-m-d H:i:s&#8221;</li>
+<li>to : Limite la recherche aux messages envoyés jusqu&#8217;à cette date, le format de date est &#8220;Y-m-d H:i:s&#8221;</li>
+<li>limit: Limite le nombre de resultats (100 max)</li>
+<li>offset : Saute les x premiers resultats.</li>
+</ul>
+<p>Voici un exemple pour avoir les messages envoyés au +33xxxxxxxxx qui sont ko:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="x">$token = &#39;mytoken&#39;;</span>
+<span class="x">$ch = curl_init();</span>
+
+<span class="x">// add the token</span>
+<span class="x">curl_setopt($ch, CURLOPT_HTTPHEADER, array(&#39;x-masterpush-apikey: &#39; . $token));</span>
+
+<span class="x">// set the route URL</span>
+<span class="x">curl_setopt($ch, CURLOPT_URL, &#39;https://api.masterpush.com/v1/messages?phoneNumber=&#39; . urlencode(&#39;+33xxxxxxxxx&#39;) . &#39;&amp;status=ko&#39;);</span>
+
+<span class="x">curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span>
+<span class="x">// Execute the query</span>
+<span class="x">$server_output = curl_exec($ch);</span>
+
+<span class="x">// Close the connection</span>
+<span class="x">curl_close ($ch);</span>
+<span class="x">print  $server_output ;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="retrouver-un-message">
+<h2>Retrouver un message<a class="headerlink" href="#retrouver-un-message" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Vous pouvez retrouver un message a partir de son ID.
+Pour faire ça, il suffit d&#8217;envoyer une requête GET vers la route /messages/{ID} où {ID} doit être remplacé par l&#8217;ID du message en question.
+Le code ci-dessous retournera les informations du message a l&#8217;id  &#8216;42sh&#8217; (il n&#8217;existe pas).</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="x">$token = &#39;mytoken&#39;;</span>
+<span class="x">$ch = curl_init();</span>
+
+<span class="x">// add the token</span>
+<span class="x">curl_setopt($ch, CURLOPT_HTTPHEADER, array(&#39;x-masterpush-apikey: &#39; . $token));</span>
+
+<span class="x">// set the route URL</span>
+<span class="x">curl_setopt($ch, CURLOPT_URL, &#39;https://api.masterpush.com/v1/messages/42sh&#39;);</span>
+
+<span class="x">curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span>
+<span class="x">// Execute the query</span>
+<span class="x">$server_output = curl_exec($ch);</span>
+
+<span class="x">// Close the connection</span>
+<span class="x">curl_close ($ch);</span>
+<span class="x">print  $server_output ;</span>
+</pre></div>
+</div>
+<p>Le code ci-dessus devrait retourner un object JSON correspondant au template ci-dessous :</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+  <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&quot;phone&quot;</span><span class="p">:</span> <span class="s2">&quot;+33xxxxxxxxx&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;La vie l&#39;univers et tout le reste&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-04-05 23:42:42&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="envoyer-un-message">
+<h2>Envoyer un message<a class="headerlink" href="#envoyer-un-message" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Pour envoyer un message via notre API, il suffit d&#8217;envoyer une requête POST vers la route /messages
+Cette route demande un object JSON dans le body contenant au moins les champs:</p>
+<ul class="simple">
+<li>phoneNumber</li>
+<li>content</li>
+</ul>
+<p>Le champ oadc est optionnel et changera le sender affiché sur le téléphone du destinataire.
+Le code ci-dessous va envoyé un sms au numéro +336xxxxxxxx avec le l&#8217;OADC masterpush.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="x">$token = &#39;mytoken&#39;;</span>
+<span class="x">$ch = curl_init();</span>
+
+<span class="x">// add the token</span>
+<span class="x">curl_setopt($ch, CURLOPT_HTTPHEADER, array(&#39;x-masterpush-apikey: &#39; . $token));</span>
+
+<span class="x">// set the route URL</span>
+<span class="x">curl_setopt($ch, CURLOPT_URL, &#39;https://api.masterpush.com/v1/messages&#39;);</span>
+<span class="x">curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span>
+<span class="x">curl_setopt($ch, CURLOPT_POST, true);</span>
+<span class="x">curl_setopt($ch, CURLOPT_POSTFIELDS,     &#39;{&quot;phoneNumber&quot;: &quot;+336xxxxxxx&quot;, &quot;content&quot;: &quot;La vie l\&#39;univers et tout le reste&quot;, &quot;oadc&quot;: &quot;masterpush&quot;}&#39; );</span>
+
+<span class="x">// Execute the query</span>
+<span class="x">$server_output = curl_exec($ch);</span>
+
+<span class="x">// Close the connection</span>
+<span class="x">curl_close ($ch);</span>
+<span class="x">print  $server_output;</span>
+</pre></div>
+</div>
+<p>La route /messages retourne un object json représentant le message, il contient l&#8217;id du message, le numéro du destinataire, le status, et la date d&#8217;envoi.</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span>
+  <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&quot;phone&quot;</span><span class="p">:</span> <span class="s2">&quot;+33xxxxxxxxx&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;La vie l&#39;univers et tout le reste&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;waiting&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-04-05 23:42:42&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="envoi-multiple">
+<h2>Envoi multiple<a class="headerlink" href="#envoi-multiple" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Vous pouvez envoyer plusieur message en une requête. Pour cela il suffit d&#8217;envoyer une requête POST vers la route /messages/multiple.
+Cette route prend pour argument une array de message. L&#8217;exemple ci-dessous envera deux messages.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="x">$token = &#39;mytoken&#39;;</span>
+<span class="x">$ch = curl_init();</span>
+
+<span class="x">// add the token</span>
+<span class="x">curl_setopt($ch, CURLOPT_HTTPHEADER, array(&#39;x-masterpush-apikey: &#39; . $token));</span>
+
+<span class="x">// set the route URL</span>
+<span class="x">curl_setopt($ch, CURLOPT_URL, &#39;https://api.masterpush.com/v1/messages&#39;);</span>
+<span class="x">curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);</span>
+<span class="x">curl_setopt($ch, CURLOPT_POST, true);</span>
+<span class="x">curl_setopt($ch, CURLOPT_POSTFIELDS,     &#39;[</span>
+<span class="x">  {&quot;phoneNumber&quot;: &quot;+336xxxxxxx&quot;, &quot;content&quot;: &quot;La vie l\&#39;univers et tout le reste&quot;, &quot;oadc&quot;: &quot;masterpush&quot;},</span>
+<span class="x">  {&quot;phoneNumber&quot;: &quot;+336xxxxxxx&quot;, &quot;content&quot;: &quot;un autre message&quot;, &quot;oadc&quot;: &quot;masterpush&quot;}</span>
+<span class="x">  ]&#39; );</span>
+
+<span class="x">// Execute the query</span>
+<span class="x">$server_output = curl_exec($ch);</span>
+
+<span class="x">// Close the connection</span>
+<span class="x">curl_close ($ch);</span>
+<span class="x">print  $server_output;</span>
+</pre></div>
+</div>
+<p>La route /messages/multiple retourne un object json représentant une array de messages.</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">[{</span>
+  <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nt">&quot;phone&quot;</span><span class="p">:</span> <span class="s2">&quot;+33xxxxxxxxx&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;La vie l&#39;univers et tout le reste&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;waiting&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-04-05 23:42:42&quot;</span>
+<span class="p">},{</span>
+  <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+  <span class="nt">&quot;phone&quot;</span><span class="p">:</span> <span class="s2">&quot;+33xxxxxxxxx&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;un autre message&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;waiting&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;2015-04-05 23:42:42&quot;</span>
+<span class="p">}]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="statistics.html" class="btn btn-neutral float-right" title="Statistiques" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="prerequis.html" class="btn btn-neutral" title="Prérequis" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, guillaume reynaert.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
