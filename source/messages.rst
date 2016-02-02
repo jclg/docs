@@ -186,7 +186,7 @@ Cette route prend pour argument une array de message. L'exemple ci-dessous enver
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('x-masterpush-apikey: ' . $token));
 
   // set the route URL
-  curl_setopt($ch, CURLOPT_URL, 'https://api.masterpush.com/v1/messages');
+  curl_setopt($ch, CURLOPT_URL, 'https://api.masterpush.com/v1/messages/multiple');
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_POST, true);
   curl_setopt($ch, CURLOPT_POSTFIELDS,     '[
