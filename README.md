@@ -1,4 +1,4 @@
-# MasterPush documentation ![License badge][license-img][![Readthedocs badge][readthedocs-img]][readthedocs-url]
+# MasterPush Documentation Project ![License badge][license-img] [![Readthedocs badge][readthedocs-img]][readthedocs-url]
 
 ## Overview
 
