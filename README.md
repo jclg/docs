@@ -86,4 +86,4 @@ Feel free to contribute on GitHub.
 
 [license-img]: https://img.shields.io/badge/license-ISC-blue.svg
 [readthedocs-img]: https://readthedocs.org/projects/pip/badge/?version=latest
-[readthedocs-url]: http:/masterpush.readthedocs.org/en/latest/
+[readthedocs-url]: http:/masterpush.readthedocs.org/fr/latest/
