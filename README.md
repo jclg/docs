@@ -5,7 +5,7 @@
 MasterPush  provide mobile  text  message delivery  service  of large  marketing
 campaign and an api to send message on the go.
 
-https://masterpush.com/
+https://www.masterpush.com/
 
 ## Description
 
