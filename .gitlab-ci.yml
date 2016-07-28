@@ -5,5 +5,4 @@ before_script:
 
 build:
   script:
-    - cd docs
     - make html
