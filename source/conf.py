@@ -47,9 +47,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'masterpush'
-copyright = '2015, guillaume reynaert'
-author = 'guillaume reynaert'
+project = 'MasterPush'
+copyright = '2016, MasterPush'
+author = 'Dalenys'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -230,8 +230,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'masterpush.tex', 'masterpush Documentation',
-   'guillaume reynaert', 'manual'),
+  (master_doc, 'masterpush.tex', 'masterpush Documentation', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
