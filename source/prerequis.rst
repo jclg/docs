@@ -33,3 +33,5 @@ La clé doit être ajoutée dans les headers des requêtes. Voici comment procé
   $ch = curl_init();
   setopt($ch, CURLOPT_HTTPHEADER, array('x-masterpush-apikey: ' . $token));
 
+
+Un code http 403 sera retourné avec le message *Authentication Failed* si l'authentification échoue.

@@ -161,6 +161,8 @@ Le code ci-dessous va envoyé un sms au numéro +336xxxxxxxx avec le l'OADC mast
 
 La route /messages retourne un object json représentant le message, il contient l'id du message, le numéro du destinataire, le status, et la date d'envoi.
 
+Exemple de retour avec un code http 201:
+
 .. code-block:: json
 
     {
@@ -170,6 +172,27 @@ La route /messages retourne un object json représentant le message, il contient
       "status": "waiting",
       "date": "2015-04-05 23:42:42"
     }
+
+
+Plusieurs retours sont possibles:
+
++-----------------------------------+---------------------------+----------------------------------------------------------------------------------------------------------------+
+| Cas                               | Code http de la réponse   | Body de la réponse (exemple)                                                                                   |
++===================================+===========================+================================================================================================================+
+| Envoi accepté                     | 201                       | {"id":0,"phoneNumber":"+336xxxxxxx","content":"Contenu","status":"waiting","date":"2017-03-16T08:55:48+0100"}  |
++-----------------------------------+---------------------------+----------------------------------------------------------------------------------------------------------------+
+| Requête/json malformée            | 400                       | {"error":"Messages JSON object not found or not valid"}                                                        |
++-----------------------------------+---------------------------+----------------------------------------------------------------------------------------------------------------+
+| Champ manquant ou non attendu     | 400                       | {"errors":{"test":"This field was not expected."}}                                                             |
++-----------------------------------+---------------------------+----------------------------------------------------------------------------------------------------------------+
+| Non autorisé pour l'international | 403                       | {"error":"Sending messages to international phone numbers is not allowed"}                                     |
++-----------------------------------+---------------------------+----------------------------------------------------------------------------------------------------------------+
+| Cas d'erreur spécifique           | 4XX ou 5XX                | {"error":"Message d'erreur spécifique"}                                                                        |
++-----------------------------------+---------------------------+----------------------------------------------------------------------------------------------------------------+
+
+Ce tableau n'est pas exhaustif.
+Dans certains cas spécifiques, un code de retour http 4XX ou 5XX peut-être retourné avec un body json {"error":"Message d'erreur"}
+
 
 Envoi multiple
 --------------
@@ -220,4 +243,42 @@ La route /messages/multiple retourne un object json représentant une array de m
       "date": "2015-04-05 23:42:42"
     }]
 
+Comme pour l'envoi simple, plusieurs retours sont possibles:
 
++-----------------------------------+---------------------------+----------------------------------------------------------------------------------------------------------------+
+| Cas                               | Code http de la réponse   | Body de la réponse (exemple)                                                                                   |
++===================================+===========================+================================================================================================================+
+| Envoi multiple accepté            | 201                       | Tableau json représentant la liste des messages                                                                |
++-----------------------------------+---------------------------+----------------------------------------------------------------------------------------------------------------+
+| Requête/json malformée            | 400                       | {"error":"Message collection not found"}                                                                       |
++-----------------------------------+---------------------------+----------------------------------------------------------------------------------------------------------------+
+| Champ manquant ou non attendu     | 400                       | {"errors":[{"test":"mavaleur This field was not expected."}]}                                                  |
++-----------------------------------+---------------------------+----------------------------------------------------------------------------------------------------------------+
+| Cas d'erreur spécifique           | 4XX ou 5XX                | {"error":"Message d'erreur spécifique"}                                                                        |
++-----------------------------------+---------------------------+----------------------------------------------------------------------------------------------------------------+
+
+Il est important de noter que même si l'envoi multiple est accepté, certains messages peuvent ne pas être envoyés pour diverses raisons.
+Il est donc conseillé de vérifier le champ "status" de chaque message dans la liste retournée.
+
+Statuts des messages
+--------------------
+
+Le champ "status" représente l'état du message.
+
++----------------------------+---------------------------------------------------------------------------------------------+
+| Valeur du champ "status"   | Signification                                                                               |
++============================+=============================================================================================+
+| waiting                    | Le message est en cours d'envoi (en attente de l'accusé de réception par l'opérateur)       |
++----------------------------+---------------------------------------------------------------------------------------------+
+| ok                         | Le message a été remis au destinataire                                                      |
++----------------------------+---------------------------------------------------------------------------------------------+
+| ko                         | Le message n'a pas été remis au destinataire (échec)                                        |
++----------------------------+---------------------------------------------------------------------------------------------+
+| error                      | Une erreur est survenue lors du traitement du message                                       |
++----------------------------+---------------------------------------------------------------------------------------------+
+| queued                     | Le message est dans la file d'attente                                                       |
++----------------------------+---------------------------------------------------------------------------------------------+
+| toQueued                   | Le message va être mis dans la file d'attente                                               |
++----------------------------+---------------------------------------------------------------------------------------------+
+| processing                 | Le message est en cours de traitement dans la file d'attente                                |
++----------------------------+---------------------------------------------------------------------------------------------+
